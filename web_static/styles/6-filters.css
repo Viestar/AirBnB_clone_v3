@@ -1,0 +1,120 @@
+section.filters {
+    background-color: white;
+    height: 70px;
+    width: 100%;
+    border: 1px solid #dddddd;
+    border-radius: 4px;
+    display: flex;
+}
+
+section.filters button {
+    font-size: 18px;
+    background-color: #ff5a5f;
+    color: #ffffff;
+    height: 48px;
+    width: 20%;
+    border: 0;
+    border-radius: 4px;
+    margin: auto 30px;
+    margin-left: auto;
+    margin-right: 30px;
+}
+
+section.filters button:hover {
+    opacity: 90%;
+}
+
+section.filters div.locations,
+section.filters div.amenities {
+    height: 100%;
+    width: 25%;
+    display: flex;
+    flex-direction: column;
+    /* box-sizing: border-box; */
+}
+
+section.filters div.locations {
+    border-right: 0.5px solid #dddddd;
+}
+
+section.filters div.amenities {
+    margin-right: auto;
+}
+
+div.locations h3,
+div.amenities h3 {
+    font-weight: 600;
+    margin-bottom: 0px;
+    margin-left: 50px;
+}
+
+div.locations h4,
+div.amenities h4 {
+    font-weight: 400;
+    font-size: 14px;
+    margin: 4px auto;
+    margin-left: 50px;
+    margin-bottom: 16px;
+}
+
+ul.popover {
+    list-style: none;
+    border: 1px solid #dddddd;
+    border-radius: 4px;
+    background-color: #fafafa;
+    margin-top: 0px;
+    padding-left: 0px;
+    padding-bottom: 20px;
+    padding-top: 20px;
+}
+
+div.locations ul,
+div.amenities ul {
+    display: none;
+}
+
+
+section.filters div.locations:hover>ul,
+section.filters div.amenities:hover>ul {
+    display: inline-table;
+    z-index: 9999;
+}
+
+section.filters div.locations,
+section.filters div.amenities {
+    height: 100%;
+    width: 25%;
+    display: flex;
+    flex-direction: column;
+    box-sizing: border-box;
+}
+
+div.locations ul.popover,
+div.amenities ul.popover {
+    border-radius: 50px;
+}
+
+div.locations ul.popover li,
+div.amenities ul.popover li {
+    margin: auto;
+    margin-left: 15%;
+}
+
+div.locations ul.popover li h2,
+div.amenities ul.popover li h2 {
+    font-size: 16px;
+    padding-left: 35px;
+    margin-bottom: 4px;
+    margin-top: 0px;
+}
+
+div.locations ul.popover li h2.toppad,
+div.amenities ul.popover li h2.toppad {
+    margin-top: 30px;
+}
+
+div.locations ul.popover li p,
+div.amenities ul.popover li p {
+    padding-left: 40px;
+    margin: 6px;
+}
