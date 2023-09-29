@@ -1,6 +1,6 @@
 ![AirBnB](./web_static/images/logo.png)
 
-# Table of contents
+# My Console Table of contents
 
 > ![AirBnB](./assets/Screenshot%20from%202023-07-10%2014-59-47.png)
 
@@ -50,7 +50,7 @@ Through this project, you will be able to explain to anyone, without the help of
 >> How to handle 2 different storage engines with the same codebase
 >> How to use environment variables
 
-# Table of contents
+# MySQL Table of contents
 
 > ![AirBnB](./assets/Screenshot%20from%202023-08-22%2003-01-03.png)
 
@@ -59,3 +59,28 @@ TASK NUMBER | LINK TO TASK CODE | TASK DESCRIPTION-
 [0x03] | [MySQL setup development](./setup_mysql_dev.sql) | Script that prepares a MySQL server for the project by creating the Database "hbnb_dev_db" and User "hbnb_dev", grants this user all privileges on created database and SELECT rights on "performance_schema.*"
 [0x04] | [MySQL setup development](./setup_mysql_test.sql) | Script that prepares a MySQL server for the project by creating the Database "hbnb_test_db" and User "hbnb_test", grants this user all privileges on created database and SELECT rights on "performance_schema.*"
 [0x05] | [Delete object](./models/engine/file_storage.py) | Added a new public instance method: def delete(self, obj=None): to delete obj from __objects if it’s inside - if obj is equal to None, the method does nothing. Updated the prototype of def all(self) to def all(self, cls=None) - that returns the list of objects of one type of class. R    
+
+>
+>
+>>> # Practising Objectives
+
+Through this project, you will be able to explain the following to anyone, without the help of Google:
+>> What REST means
+>> What API means
+>> What CORS means
+>> What is an API
+>> What is a REST API
+>> What are other type of APIs
+>> Which is the HTTP method to retrieve resource(s)
+>> Which is the HTTP method to create a resource
+>> Which is the HTTP method to update resource
+>> Which is the HTTP method to delete resource
+>> How to request REST API
+
+# API Table of contents
+
+> ![AirBnB](./assets/Screenshot%20from%202023-09-29%2018-08-08.png)
+
+TASK NUMBER | LINK TO TASK CODE | TASK DESCRIPTION-
+----- | ------ | ----------
+[03] | [Status of the Api](./api/) | API nano framework
