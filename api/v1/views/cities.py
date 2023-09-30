@@ -10,10 +10,10 @@ from flask import make_response, request
 
 @app_views.route('/states/<state_id>/cities', methods=['GET'],
                  strict_slashes=False)
-def get_all_cities(state_id):
-    """ Retrieves  all cities of a specific State, or city """
+def do_get_all_cities(state_id):
+    """ Fetching cities of a specific State, or city """
     cities_list = []
-    state = storage.all(State, state_id)
+    state = storage.get(State, state_id)
     if state:
         for city in state.cities:
             cities_list.append(city.to_dict())
@@ -22,18 +22,18 @@ def get_all_cities(state_id):
 
 
 @app_views.route('/cities/<city_id>/', methods=['GET'], strict_slashes=False)
-def get_city(city_id):
+def do_get_city(city_id):
     """ Retrieves a specific city based on its ID """
-    city = storage.all(City, city_id)
+    city = storage.get(City, city_id)
     if city:
         return jsonify(city.to_dict())
     abort(404)
 
 
 @app_views.route('/cities/<city_id>', methods=['DELETE'], strict_slashes=False)
-def delete_city(city_id):
+def do_delete_city(city_id):
     """ Deletes a city based on the passed ID """
-    city = storage.all(City, city_id)
+    city = storage.get(City, city_id)
     if city:
         storage.delete(city)
         storage.save()
@@ -43,9 +43,9 @@ def delete_city(city_id):
 
 @app_views.route('/states/<state_id>/cities', methods=['POST'],
                  strict_slashes=False)
-def post_city(state_id):
+def do_post_city(state_id):
     """ Creates a City in the database """
-    state = storage.all(State, state_id)
+    state = storage.get(State, state_id)
     if not state:
         abort(404)
     if not request.get_json():
@@ -61,11 +61,9 @@ def post_city(state_id):
 
 
 @app_views.route('/cities/<city_id>', methods=['PUT'], strict_slashes=False)
-def update_city(city_id):
-    """
-    Updates a City
-    """
-    city = storage.all(City, city_id)
+def do_update_city(city_id):
+    """ Updates a City using its ID  """
+    city = storage.get(City, city_id)
     if not city:
         abort(404)
 
