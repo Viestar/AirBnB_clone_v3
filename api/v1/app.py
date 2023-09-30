@@ -16,6 +16,6 @@ def shut_and_clear_everything(exception):
 
 
 if __name__ == "__main__":
-    port = int(os.getenv("HBNB_API_HOST", 5000))
-    host = os.getenv("HBNB_API_PORT", "0.0.0.0")
+    port = int(os.getenv("HBNB_API_PORT", 5000))
+    host = os.getenv("HBNB_API_HOST", "0.0.0.0")
     app.run(host=host, port=port, threaded=True)
