@@ -11,8 +11,8 @@ from models.user import User
 
 
 @app_views.route('/cities/<city_id>/places',
-                methods=['GET'], strict_slashes=False)
-def get_city_places():
+                 methods=['GET'], strict_slashes=False)
+def get_city_places(city_id):
     """ Retrieves a list of all Place objects """
     city = storage.get(City, city_id)
     if city is None:
@@ -21,9 +21,9 @@ def get_city_places():
     return jsonify(places)
 
 
-@app_views.route('/places/<place_id>',
-        methods=['GET'], strict_slashes=False)
-def get_place(amenity_id):
+@app_views.route('/places/<place_id>', methods=['GET'],
+                 strict_slashes=False)
+def get_place(place_id):
     """ Retrive an place by id """
     place = storage.get(Place, place_id)
     if place is None:
@@ -31,9 +31,9 @@ def get_place(amenity_id):
     return jsonify(place.to_dict())
 
 
-@app_views.route('/places/<place_id>',
-        methods=['DELETE'], strict_slashes=False)
-def delete_place(amenity_id):
+@app_views.route('/places/<place_id>', methods=['DELETE'],
+                 strict_slashes=False)
+def delete_place(place_id):
     """ delete an place identified by id """
     place = storage.get(Place, place_id)
     if place is None:
@@ -43,9 +43,9 @@ def delete_place(amenity_id):
     return jsonify({}), 200
 
 
-@app_views.route('/cities/<city_id>/places',
-        methods=['POST'], strict_slashes=False)
-def create_place():
+@app_views.route('/cities/<city_id>/places', methods=['POST'],
+                 strict_slashes=False)
+def create_place(city_id):
     """ creates a new place in city """
     city = storage.get(City, city_id)
     if city is None:
@@ -66,9 +66,9 @@ def create_place():
     return jsonify(place.to_dict()), 201
 
 
-@app_views.route('/places/<place_id>',
-        methods=['PUT'], strict_slashes=False)
-def update_place(amenity_id):
+@app_views.route('/places/<place_id>', methods=['PUT'],
+                 strict_slashes=False)
+def update_place(place_id):
     """ Updates place object by ID """
     place = storage.get(Place, place_id)
     if place is None:
