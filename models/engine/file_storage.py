@@ -1,48 +1,48 @@
 #!/usr/bin/python3
-"""This module defines a class to manage file storage for hbnb clone"""
+"""FIle storage manager"""
 import json
 
 
 class FileStorage:
-    """This class manages storage of hbnb models in JSON format"""
+    """ File storage manager """
     __file_path = 'file.json'
     __objects = {}
 
     def all(self, cls=None):
-        """Returns a dictionary of models currently in storage"""
+        """Returns object Dictionary """
         if cls is None:
             return self.__objects
         cls_name = cls.__name__
-        dct = {}
+        dictionary = {}
         for key in self.__objects.keys():
             if key.split('.')[0] == cls_name:
-                dct[key] = self.__objects[key]
-        return dct
+                dictionary[key] = self.__objects[key]
+        return dictionary
 
     def new(self, obj):
-        """Adds new object to storage dictionary"""
+        """Adds new object to the dictionary"""
         self.__objects.update(
-            {f"{obj.to_dict()['__class__']}.{obj.id}": obj}
+            {obj.to_dict()['__class__'] + '.' + obj.id: obj}
         )
 
     def save(self):
-        """Saves storage dictionary to file"""
+        """Saves dictionary to file"""
         with open(self.__file_path, 'w') as f:
-            temp = {}
-            temp.update(self.__objects)
-            for key, val in temp.items():
-                temp[key] = val.to_dict()
-            json.dump(temp, f)
+            cont = {}
+            cont.update(self.__objects)
+            for key, val in cont.items():
+                cont[key] = val.to_dict()
+            json.dump(cont, f)
 
     def reload(self):
         """Loads storage dictionary from file"""
-        from models.base_model import BaseModel
-        from models.user import User
-        from models.place import Place
         from models.state import State
         from models.city import City
         from models.amenity import Amenity
         from models.review import Review
+        from models.base_model import BaseModel
+        from models.user import User
+        from models.place import Place
 
         classes = {
             'BaseModel': BaseModel, 'User': User, 'Place': Place,
@@ -50,24 +50,38 @@ class FileStorage:
             'Review': Review
         }
         try:
-            temp = {}
             with open(self.__file_path, 'r') as f:
-                temp = json.load(f)
-                for key, val in temp.items():
-                    self.all()[key] = classes[val['__class__']](**val)
+                cont = json.load(f)
+                for key, value in cont.items():
+                    self.all()[key] = classes[value['__class__']](**value)
         except FileNotFoundError:
             pass
 
     def delete(self, obj=None):
-        ''' deletes the object obj from the attribute
-            __objects if it's inside it
-        '''
+        ''' deletes the objects '''
         if obj is None:
             return
-        obj_key = obj.to_dict()['__class__'] + '.' + obj.id
-        if obj_key in self.__objects.keys():
-            del self.__objects[obj_key]
+        object_key = obj.to_dict()['__class__'] + '.' + obj.id
+        if object_key in self.__objects.keys():
+            del self.__objects[object_key]
 
     def close(self):
-        """ Deserialises the json file to objects """
+        """Calls the reload function"""
         self.reload()
+
+    def get(self, cls, id):
+        """ method to retrieve one object """
+        if cls is not None:
+            match = list(
+                    filter(
+                        lamba x: type(x) is cls and x.id == id,
+                        self.__objects.values()
+                        )
+                    )
+            if match:
+                return match[0]
+        return None
+
+    def count(self, cls=None):
+        """ counts the number of objects in storage """
+        return len(self.all(cls))
