@@ -90,7 +90,7 @@ class DBStorage:
 
     def get(self, cls, id):
         """ method to retrieve one object """
-        if cls is not None: 
+        if cls is not None:
             match = list(
                     filter(
                         lambda x: type(x) is cls and x.id == id,

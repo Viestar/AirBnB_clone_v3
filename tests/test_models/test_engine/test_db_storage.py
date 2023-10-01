@@ -9,6 +9,7 @@ from models import storage
 from datetime import datetime
 import os
 
+
 @unittest.skipIf(os.getenv('HBNB_TYPE_STORAGE') != 'db',
                  'db_storage test not supported')
 class TestDBStorage(unittest.TestCase):
@@ -175,7 +176,6 @@ class TestDBStorage(unittest.TestCase):
         dbc1.close()
         cursor.close()
         dbc.close()
-
 
     def test_get(self):
         """ Tests the get method """
