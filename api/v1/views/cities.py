@@ -1,11 +1,11 @@
 #!/usr/bin/python3
 """ Default RestFul API actions for cities GET, PUSH, PUT, DELETE """
+from flask import abort, jsonify
+from flask import make_response, request
 from models.city import City
 from models.state import State
 from api.v1.views import app_views
 from models import storage
-from flask import abort, jsonify
-from flask import make_response, request
 
 
 @app_views.route('/states/<state_id>/cities', methods=['GET'],
