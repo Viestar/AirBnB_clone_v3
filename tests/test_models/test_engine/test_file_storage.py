@@ -2,6 +2,8 @@
 """ Module for testing file storage"""
 import unittest
 from models.base_model import BaseModel
+from models.city import City
+from models.state import State
 from models import storage
 import os
 
@@ -110,3 +112,24 @@ class test_fileStorage(unittest.TestCase):
         """ FileStorage object storage created """
         from models.engine.file_storage import FileStorage
         self.assertEqual(type(storage), FileStorage)
+
+    def test_get(self):
+        """ Tests the get method """
+        dic = {"name": "Uganda"}
+        instance = State(**dic)
+        storage.new(instance)
+        storage.save()
+        get_instance = storage.get(State, instance.id)
+        self.assertEqual(get_instance, instance)
+
+    def test_count(self):
+        """ Tests the count method  """
+        dic = {"name": "Nairobi"}
+        state = State(**dic)
+        storage.new(state)
+        dic = {"name": "Kenya", "state_id": state.id}
+        city = City(**dic)
+        storage.new(city)
+        storage.save()
+        total = storage.count()
+        self.assertEqual(len(storage.all()), total)

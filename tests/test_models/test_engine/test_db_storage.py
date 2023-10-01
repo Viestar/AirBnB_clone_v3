@@ -3,6 +3,8 @@
 import unittest
 import MySQLdb
 from models.user import User
+from models.city import City
+from models.state import State
 from models import storage
 from datetime import datetime
 import os
@@ -173,3 +175,25 @@ class TestDBStorage(unittest.TestCase):
         dbc1.close()
         cursor.close()
         dbc.close()
+
+
+    def test_get(self):
+        """ Tests the get method """
+        dic = {"name": "Uganda"}
+        instance = State(**dic)
+        storage.new(instance)
+        storage.save()
+        get_instance = storage.get(State, instance.id)
+        self.assertEqual(get_instance, instance)
+
+    def test_count(self):
+        """ Tests the count method  """
+        dic = {"name": "Nairobi"}
+        state = State(**dic)
+        storage.new(state)
+        dic = {"name": "Kenya", "state_id": state.id}
+        city = City(**dic)
+        storage.new(city)
+        storage.save()
+        total = storage.count()
+        self.assertEqual(len(storage.all()), total)
