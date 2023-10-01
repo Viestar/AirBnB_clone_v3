@@ -9,7 +9,8 @@ from flask.cors import CORS
 
 app = Flask(__name__)
 app.register_blueprint(app_views)
-cors = CORS(app,resources={r"api/v1/*": {"origin": "*"}})
+cors = CORS(app, resources={r"api/v1/*": {"origin": "*"}})
+
 
 @app.teardown_appcontext
 def shut_and_clear_everything(exception):
@@ -20,8 +21,7 @@ def shut_and_clear_everything(exception):
 @app.errorhandler(404)
 def error_404_handler(error):
     """ Handles 404 error response """
-    response = make_response(jsonify({'error': "Not found"}), 404)
-    return response
+    return make_response(jsonify({'error': 'Not found'}), 404)
 
 
 if __name__ == "__main__":
