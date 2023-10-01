@@ -8,6 +8,7 @@ from models.amenity import Amenity
 from models import storage
 from api.v1.views import app_views
 
+
 @app_views.route('places/<place_id>/amenities', methods=['GET'],
                  strict_slashes=False)
 def do_get_all_place_amenities(place_id):
@@ -19,7 +20,7 @@ def do_get_all_place_amenities(place_id):
             amenities = [amenity.to_dict() for amenity in place.amenities]
         else:
             amenities = [storage.get(Amenity, amenity_id).to_dict()
-                        for amenity_id in place.amenity_ids]
+                         for amenity_id in place.amenity_ids]
         return jsonify(amenities)
     abort(404)
 

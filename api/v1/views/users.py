@@ -1,10 +1,10 @@
 #!/usr/bin/python3
 """ Default RestFul API actions for users GET, PUSH, PUT, DELETE """
+from flask import abort, jsonify
+from flask import make_response, request
 from models.user import User
 from api.v1.views import app_views
 from models import storage
-from flask import abort, jsonify
-from flask import make_response, request
 
 
 @app_views.route('/users', methods=['GET'], strict_slashes=False)
