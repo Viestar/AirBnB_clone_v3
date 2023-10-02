@@ -3,3 +3,5 @@ venv
 penv
 test_get_count
 __pycache__/
+*.pyc
+*.pyo
