@@ -46,7 +46,7 @@ def do_delete_an_amenity(place_id, amenity_id):
                     place.amenity_ids.remove(amenity_id)
                 abort(404)
             storage.save()
-            return make_response(jsonify({}), 200)
+            return jsonify({}), 200
         abort(404)
     abort(404)
 
@@ -62,15 +62,15 @@ def post_place_amenity(place_id, amenity_id):
         if amenity:
             if environ.get('HBNB_TYPE_STORAGE') == "db":
                 if amenity in place.amenities:
-                    return make_response(jsonify(amenity.to_dict()), 200)
+                    return jsonify(amenity.to_dict()), 200
                 else:
                     place.amenities.append(amenity)
             else:
                 if amenity_id in place.amenity_ids:
-                    return make_response(jsonify(amenity.to_dict()), 200)
+                    return jsonify(amenity.to_dict()), 200
                 else:
                     place.amenity_ids.append(amenity_id)
             storage.save()
-            return make_response(jsonify(amenity.to_dict()), 201)
+            return jsonify(amenity.to_dict()), 201
         abort(404)
     abort(404)
