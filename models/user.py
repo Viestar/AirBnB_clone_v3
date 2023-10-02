@@ -32,3 +32,5 @@ class User(BaseModel, Base):
             # Hash the password if provided in kwargs
             self.password = hashlib.sha256(kwargs["password"].encode()).\
                             hexdigest()
+        elif not self.password:
+            self.password = ""
