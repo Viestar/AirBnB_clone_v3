@@ -2,7 +2,7 @@
 """ handles all default RESTFul API actions
     for state objects
 """
-from flask import Flask, request, jsonify, abort
+from flask import request, jsonify, abort, make_response
 from api.v1.views import app_views
 from models import storage
 from models.state import State
@@ -41,9 +41,9 @@ def create_state():
     """ creates a new state object """
     data = request.get_json()
     if data is None:
-        abort(400, 'Not a JSON')
+        return make_response(jsonify({"error": "Not a JSON"}), 400)
     if 'name' not in data:
-        abort(400, 'Missing name')
+        return make_response(jsonify({"error": "Missing name"}), 400)
     state = State(**data)
     state.save()
     return jsonify(state.to_dict()), 201
@@ -57,7 +57,7 @@ def update_state(state_id):
         abort(404)
     data = request.get_json()
     if data is None:
-        abort(400, 'Not a JSON')
+        return make_response(jsonify({"error": "Not a JSON"}), 400)
     for key, value in data.items():
         if key not in ['id', 'created_at', 'updated_at']:
             setattr(state, key, value)
