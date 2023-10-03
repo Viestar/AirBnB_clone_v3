@@ -13,26 +13,20 @@ from flask import make_response, request
                  strict_slashes=False)
 def get_reviews(place_id):
     """ Fetching reviews of a specific place """
-
     place = storage.get(Place, place_id)
 
     if not place:
         abort(404)
-
     reviews = [review.to_dict() for review in place.reviews]
-
     return jsonify(reviews)
 
 
 @app_views.route('/reviews/<review_id>', methods=['GET'], strict_slashes=False)
 def get_review(review_id):
-    """
-    Retrieves a Review object
-    """
+    """ Fetches a Review object """
     review = storage.get(Review, review_id)
     if not review:
         abort(404)
-
     return jsonify(review.to_dict())
 
 
@@ -44,7 +38,6 @@ def delete_review(review_id):
 
     if not review:
         abort(404)
-
     storage.delete(review)
     storage.save()
 
@@ -59,24 +52,19 @@ def post_review(place_id):
 
     if not place:
         abort(404)
-
     if not request.get_json():
         abort(400, description="Not a JSON")
-
     if 'user_id' not in request.get_json():
         abort(400, description="Missing user_id")
-
-    data = request.get_json()
-    user = storage.get(User, data['user_id'])
+    f_data = request.get_json()
+    user = storage.get(User, f_data['user_id'])
 
     if not user:
         abort(404)
-
     if 'text' not in request.get_json():
         abort(400, description="Missing text")
-
-    data['place_id'] = place_id
-    instance = Review(**data)
+    f_data['place_id'] = place_id
+    instance = Review(**f_data)
     instance.save()
     return make_response(jsonify(instance.to_dict()), 201)
 
@@ -85,19 +73,15 @@ def post_review(place_id):
                  strict_slashes=False)
 def put_review(review_id):
     """ Creates a review in the database """
-
     review = storage.get(Review, review_id)
 
     if not review:
         abort(404)
-
     if not request.get_json():
         abort(400, description="Not a JSON")
-
     ignore = ['id', 'user_id', 'place_id', 'created_at', 'updated_at']
-
-    data = request.get_json()
-    for key, value in data.items():
+    f_data = request.get_json()
+    for key, value in f_data.items():
         if key not in ignore:
             setattr(review, key, value)
     storage.save()
