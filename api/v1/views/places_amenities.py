@@ -30,25 +30,16 @@ def do_get_all_place_amenities(place_id):
 def do_delete_an_amenity(place_id, amenity_id):
     """ Deletes an Amenity object of a Place  """
     place = storage.get(Place, place_id)
-
-    if place:
-
-        amenity = storage.get(Amenity, amenity_id)
-
-        if amenity:
-
-            if environ.get('HBNB_TYPE_STORAGE') == "db":
-                if amenity in place.amenities:
-                    place.amenities.remove(amenity)
-                abort(404)
-            else:
-                if amenity_id in place.amenity_ids:
-                    place.amenity_ids.remove(amenity_id)
-                abort(404)
-            storage.save()
-            return jsonify({}), 200
+    if place is None:
         abort(404)
-    abort(404)
+    amenity = storage.get(Amenity, amenity_id)
+    if amenity is None:
+        abort(404)
+    if amenity not in place.amenities:
+        abort(404)
+    place.amenities.remove(amenity)
+    storage.save()
+    return jsonify({})
 
 
 @app_views.route('/places/<place_id>/amenities/<amenity_id>',
