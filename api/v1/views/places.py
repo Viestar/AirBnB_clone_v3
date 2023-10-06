@@ -102,7 +102,10 @@ def places_search():
     # If all search criteria are empty, retrieve all Place objects
     if not states and not cities and not amenities:
         places = storage.all(Place).values()
-        return jsonify([place.to_dict() for place in places])
+        list_places = []
+        for place in places:
+            list_places.append(place.to_dict())
+        return jsonify(list_places)
 
     # Retrieve Place objects based on search criteria
     list_places = []
