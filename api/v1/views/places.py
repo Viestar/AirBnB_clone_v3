@@ -1,6 +1,6 @@
 #!/usr/bin/python3
 """ handles all default RESTFul API actions
-    for state objects
+    for place objects
 """
 from flask import Flask, request, jsonify, abort
 from api.v1.views import app_views
@@ -92,7 +92,7 @@ def places_search():
     data = request.get_json()
 
     if data is None:
-        abort(400, 'Not a JSON')
+        return make_response(jsonify({"error": "Not a JSON"}), 400)
 
     # Extract search criteria from the JSON
     states = data.get('states', [])
@@ -105,28 +105,34 @@ def places_search():
         return jsonify([place.to_dict() for place in places])
 
     # Retrieve Place objects based on search criteria
-    places = []
+    list_places = []
 
     # Retrieve by states and cities
     for state_id in states:
         state = storage.get(State, state_id)
         if state:
-            cities.extend([city.id for city in state.cities])
+            for city in state.cities:
+                if city:
+                    list_places.extend(city.places)
 
     for city_id in cities:
         city = storage.get(City, city_id)
         if city:
-            places.extend(city.places)
+            list_places.extend(city.places)
 
     # Filter by amenities
     if amenities:
-        places = [
-                place
-                for place in places
-                if all(
-                    amenity_id in place.amenities
-                    for amenity_id in amenities
-                    )
-                ]
+        if not list_places:
+            list_places = storage.all(Place).values()
+        amenities_obj = [storage.get(Amenity, a_id) for a_id in amenities]
+        list_places = [place for place in list_places
+                       if all([am in place.amenities
+                               for am in amenities_obj])]
 
-    return jsonify([place.to_dict() for place in places])
+    places = []
+    for place in list_places:
+        d = place.to_dict()
+        d.pop('amenities', None)
+        places.append(d)
+
+    return jsonify(places)
