@@ -68,9 +68,9 @@ class BaseModel:
         new_dict["__class__"] = self.__class__.__name__
         if "_sa_instance_state" in new_dict:
             del new_dict["_sa_instance_state"]
-        # Remove the 'password' key from the dictionary, except for 'db'
-        if models.storage != 'db' and "password" in new_dict:
-            del new_dict["password"]
+        if secure_pwd:
+            if 'password' in new_dict:
+                del new_dict['password']
         return new_dict
 
     def delete(self):
